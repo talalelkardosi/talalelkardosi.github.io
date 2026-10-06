@@ -30,7 +30,41 @@ export function ProjectModal({ project, onClose }: { project: Project | null; on
                 {(["problem", "approach", "result"] as const).map((k) => (
                   <section key={k}>
                     <h3 className="text-sm font-semibold uppercase tracking-widest text-gold-bright">{k}</h3>
+                    {k === "result" && project.keyFindings && (
+                      <div className="mt-3">
+                        <h4 className="text-sm font-semibold text-foreground">Key findings</h4>
+                        <ul className="mt-2 list-disc space-y-2 pl-5 leading-relaxed text-foreground/85 marker:text-gold">
+                          {project.keyFindings.map((finding) => (
+                            <li key={finding}>{finding}</li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
                     <p className="mt-2 leading-relaxed text-foreground/85">{project[k]}</p>
+                    {k === "approach" && project.approachWorkstreams && (
+                      <ul className="mt-4 list-disc space-y-3 pl-5 leading-relaxed text-foreground/85 marker:text-gold">
+                        {project.approachWorkstreams.map((workstream) => (
+                          <li key={workstream.title}>
+                            <span className="font-semibold text-foreground">
+                              {workstream.title}:
+                            </span>{" "}
+                            {workstream.description}
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                    {k === "approach" && project.dashboardFeatures && (
+                      <div className="mt-5">
+                        <h4 className="text-sm font-semibold text-foreground">
+                          Dashboard features
+                        </h4>
+                        <ul className="mt-2 list-disc space-y-2 pl-5 leading-relaxed text-foreground/85 marker:text-gold">
+                          {project.dashboardFeatures.map((feature) => (
+                            <li key={feature}>{feature}</li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
                   </section>
                 ))}
               </div>

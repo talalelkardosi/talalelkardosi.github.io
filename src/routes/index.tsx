@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { Toaster, toast } from "sonner";
 import {
@@ -45,6 +45,12 @@ const container = "mx-auto max-w-6xl px-5 md:px-8";
 
 function Index() {
   const [selected, setSelected] = useState<Project | null>(null);
+  const lastProjectTrigger = useRef<HTMLButtonElement | null>(null);
+
+  useEffect(() => {
+    if (!selected) lastProjectTrigger.current?.focus();
+  }, [selected]);
+
   return (
     <div className="grain min-h-screen overflow-x-clip bg-background">
       <Navbar />
@@ -52,7 +58,12 @@ function Index() {
         <Hero />
         <About />
         <Services />
-        <Projects onOpen={setSelected} />
+        <Projects
+          onOpen={(project, trigger) => {
+            lastProjectTrigger.current = trigger;
+            setSelected(project);
+          }}
+        />
         <Skills />
         <Credentials />
         <Contact />
@@ -150,7 +161,7 @@ function Services() {
   );
 }
 
-function Projects({ onOpen }: { onOpen: (p: Project) => void }) {
+function Projects({ onOpen }: { onOpen: (p: Project, trigger: HTMLButtonElement) => void }) {
   return (
     <section id="projects" className={`${container} scroll-mt-24 py-24`}>
       <SectionHeading
@@ -160,10 +171,10 @@ function Projects({ onOpen }: { onOpen: (p: Project) => void }) {
       />
       <div className="grid gap-6 md:grid-cols-2">
         {projects.map((p, i) => (
-          <Reveal key={p.title} delay={i * 0.08}>
+          <Reveal key={p.title} delay={i * 0.08} className="min-w-0">
             <button
-              onClick={() => onOpen(p)}
-              className="glow-hover group relative flex h-full w-full flex-col rounded-2xl border border-border bg-panel p-7 text-left"
+              onClick={(event) => onOpen(p, event.currentTarget)}
+              className="glow-hover group relative flex h-full w-full min-w-0 flex-col rounded-2xl border border-border bg-panel p-7 text-left"
             >
               {(p.githubUrl || p.dashboardUrl) && (
                 <span className="absolute right-5 top-5 flex items-center gap-2">
@@ -179,8 +190,14 @@ function Projects({ onOpen }: { onOpen: (p: Project) => void }) {
                   )}
                 </span>
               )}
-              <h3 className={`${p.dashboardUrl && p.githubUrl ? "pr-40" : "pr-24"} text-xl font-semibold md:text-2xl`}>{p.title}</h3>
-              <p className="mt-3 line-clamp-3 text-muted-foreground">{p.problem}</p>
+              <h3
+                className={`${p.dashboardUrl && p.githubUrl ? "pt-10 pr-0 sm:pt-0 sm:pr-40" : "pr-24"} break-words text-xl font-semibold md:text-2xl`}
+              >
+                {p.title}
+              </h3>
+              <p className="mt-3 line-clamp-3 text-muted-foreground">
+                {p.description ?? p.problem}
+              </p>
               <div className="mt-5 flex flex-wrap gap-2">
                 {[...p.tags, ...(p.tool ? [p.tool] : [])].map((t) => (
                   <span key={t} className="rounded-full border border-border px-3 py-1 text-xs text-muted-foreground">{t}</span>

@@ -43,14 +43,85 @@ export type Project = {
   dashboardUrl?: string; // optional: fill to show "View Dashboard"
   screenshot?: string; // optional: image path in /public, e.g. "/dashboard.png"
   tool?: string; // optional: dashboard tool name (e.g. "Power BI"), added as a tag
+  description?: string;
   problem: string;
   approach: string;
+  approachWorkstreams?: { title: string; description: string }[];
+  dashboardFeatures?: string[];
+  keyFindings?: string[];
   result: string;
 };
 
 export const githubProfile = "https://github.com/talalelkardosi";
 
 export const projects: Project[] = [
+  {
+    title: "Online Retail: Sales & Customer Analytics",
+    tags: ["Python", "Pandas", "NumPy", "RFM", "Cohort Analysis", "HTML/JavaScript"],
+    githubUrl: "https://github.com/talalelkardosi/Online-Retail-Customer-Analytics",
+    dashboardUrl: "https://talalelkardosi.github.io/Online-Retail-Customer-Analytics/",
+    description:
+      "An end-to-end analysis of 541,909 transaction records, combining Python data cleaning, revenue analysis, customer segmentation, cohort retention, and cancellation investigation in an interactive web dashboard.",
+    problem:
+      "The transaction dataset contains missing customer identifiers, duplicate records, cancellations, non-product transactions, and unusually large orders. The challenge was to establish consistent analytical definitions and understand revenue performance, product concentration, customer purchasing behavior, and cancellation patterns without distorting the results.",
+    approach:
+      "Built a Python workflow covering data preparation, exploratory analysis, validation, and CSV exports, followed by an interactive web dashboard.",
+    approachWorkstreams: [
+      {
+        title: "Data quality",
+        description:
+          "Preserved all 541,909 source rows and their identifiers. Flagged additional exact duplicates and excluded them from analytical scopes. Standardized data types and separated product transactions from shipping, fees, discounts, and other non-product lines.",
+      },
+      {
+        title: "Revenue and markets",
+        description:
+          "Analyzed monthly gross revenue, cancellation value, net product revenue, order volume, average order value, and country performance. Marked December 2011 as a partial month to avoid misleading comparisons.",
+      },
+      {
+        title: "Products",
+        description:
+          "Reviewed product performance and revenue concentration using Pareto analysis. Investigated product cancellation ratios and their concentration in individual invoices and customers.",
+      },
+      {
+        title: "Customers",
+        description:
+          "Calculated recency, purchase frequency, and net monetary value. Applied explicit RFM rules to 4,322 customers with positive net value, separating 12 purchasing customers with non-positive net value for review. Examined one-time and repeat purchasing behavior.",
+      },
+      {
+        title: "Retention",
+        description:
+          "Built monthly cohorts based on first observed purchase and measured activity in subsequent complete calendar months. Kept unavailable future observations missing rather than treating them as zero.",
+      },
+      {
+        title: "Cancellations",
+        description:
+          "Investigated high-value cancellation invoices. Identified two matched sale/cancellation pairs and tested a sensitivity scenario that excludes both sides of each pair while preserving net revenue.",
+      },
+      {
+        title: "Validation and delivery",
+        description:
+          "Passed 11 analysis validation checks covering reconciliation, customer scopes, cohort coverage, reversal sensitivity, and source-row integrity. Exported 21 verified analytical CSV tables, with an export manifest and decision log.",
+      },
+    ],
+    dashboardFeatures: [
+      "Eight sections: Executive Overview, Revenue & Growth, Markets, Products, Customers & RFM, Retention, Cancellations, and Methodology.",
+      "Section-specific filters and searchable tables.",
+      "Light and dark themes.",
+      "Fullscreen mode.",
+      "Data export controls.",
+      "Visible metric definitions and validation results.",
+    ],
+    keyFindings: [
+      "Net product revenue: 9.77 million across the observation period.",
+      "The United Kingdom contributed 84.75% of net product revenue.",
+      "Repeat purchasers represented 65.27% of purchasing customers and generated 93.52% of their net revenue.",
+      "Champions represented 29.82% of RFM-scored customers and contributed 74.89% of scored customers’ net revenue.",
+      "Weighted next-calendar-month retention was 19.73% for January–October 2011 cohorts.",
+      "Excluding the two matched reversal pairs reduced cancellation value as a share of gross product revenue from 4.64% to 2.30%, with net revenue unchanged.",
+    ],
+    result:
+      "Delivered an interactive dashboard that brings revenue, markets, products, customer segments, retention, cancellations, and methodology into one explorable interface.",
+  },
   {
     title: "Nashville Housing: Data Cleaning",
     tags: ["Python", "pandas", "NumPy"],
