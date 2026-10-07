@@ -172,10 +172,7 @@ function Projects({ onOpen }: { onOpen: (p: Project, trigger: HTMLButtonElement)
       <div className="grid gap-6 md:grid-cols-2">
         {projects.map((p, i) => (
           <Reveal key={p.title} delay={i * 0.08} className="min-w-0">
-            <button
-              onClick={(event) => onOpen(p, event.currentTarget)}
-              className="glow-hover group relative flex h-full w-full min-w-0 flex-col rounded-2xl border border-border bg-panel p-7 text-left"
-            >
+            <article className="glow-hover relative flex h-full min-w-0 flex-col rounded-2xl border border-border bg-panel p-7">
               {(p.githubUrl || p.dashboardUrl) && (
                 <span className="absolute right-5 top-5 flex items-center gap-2">
                   {p.dashboardUrl && (
@@ -191,22 +188,55 @@ function Projects({ onOpen }: { onOpen: (p: Project, trigger: HTMLButtonElement)
                 </span>
               )}
               <h3
-                className={`${p.dashboardUrl && p.githubUrl ? "pt-10 pr-0 sm:pt-0 sm:pr-40" : "pr-24"} break-words text-xl font-semibold md:text-2xl`}
+                className={`${p.dashboardUrl && p.githubUrl ? "pt-10 pr-0 sm:pt-0 sm:pr-40" : p.githubUrl ? "pr-24" : ""} break-words text-xl font-semibold md:text-2xl`}
               >
                 {p.title}
               </h3>
               <p className="mt-3 line-clamp-3 text-muted-foreground">
                 {p.description ?? p.problem}
               </p>
+              {p.dashboardSummary && (
+                <p className="mt-4 text-sm font-medium leading-relaxed text-gold-bright">
+                  {p.dashboardSummary}
+                </p>
+              )}
               <div className="mt-5 flex flex-wrap gap-2">
                 {[...p.tags, ...(p.tool ? [p.tool] : [])].map((t) => (
                   <span key={t} className="rounded-full border border-border px-3 py-1 text-xs text-muted-foreground">{t}</span>
                 ))}
               </div>
-              <span className="mt-auto inline-flex items-center gap-1 pt-6 text-sm font-medium text-gold-bright">
-                Read case study <ArrowUpRight className="h-4 w-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
-              </span>
-            </button>
+              <div className="mt-auto flex flex-col gap-3 pt-6">
+                {p.dashboardUrl && (
+                  <a
+                    href={p.dashboardUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="btn-gold w-full"
+                  >
+                    Explore Dashboard <ArrowUpRight className="h-4 w-4" aria-hidden />
+                  </a>
+                )}
+                <div className="flex flex-col gap-3 sm:flex-row">
+                  <button
+                    type="button"
+                    onClick={(event) => onOpen(p, event.currentTarget)}
+                    className="btn-outline-gold min-w-0 flex-1"
+                  >
+                    Read Case Study
+                  </button>
+                  {p.githubUrl && (
+                    <a
+                      href={p.githubUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="btn-outline-gold min-w-0 flex-1"
+                    >
+                      <GithubIcon className="h-4 w-4" /> GitHub
+                    </a>
+                  )}
+                </div>
+              </div>
+            </article>
           </Reveal>
         ))}
       </div>

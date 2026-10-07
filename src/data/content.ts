@@ -44,6 +44,7 @@ export type Project = {
   screenshot?: string; // optional: image path in /public, e.g. "/dashboard.png"
   tool?: string; // optional: dashboard tool name (e.g. "Power BI"), added as a tag
   description?: string;
+  dashboardSummary?: string;
   problem: string;
   approach: string;
   approachWorkstreams?: { title: string; description: string }[];
@@ -60,6 +61,7 @@ export const projects: Project[] = [
     tags: ["Python", "Pandas", "NumPy", "RFM", "Cohort Analysis", "HTML/JavaScript"],
     githubUrl: "https://github.com/talalelkardosi/Online-Retail-Customer-Analytics",
     dashboardUrl: "https://talalelkardosi.github.io/Online-Retail-Customer-Analytics/",
+    dashboardSummary: "8 interactive sections · Filters · Searchable tables · Data export",
     description:
       "An end-to-end analysis of 541,909 transaction records, combining Python data cleaning, revenue analysis, customer segmentation, cohort retention, and cancellation investigation in an interactive web dashboard.",
     problem:
@@ -144,6 +146,7 @@ export const projects: Project[] = [
     tags: ["Interactive Dashboard", "KPIs", "Cross-filtering", "HTML/JavaScript"],
     githubUrl: "https://github.com/talalelkardosi/Nashville-Housing-Dashboard", // "" hides GitHub badge + button
     dashboardUrl: "https://talalelkardosi.github.io/Nashville-Housing-Dashboard/", // "" hides "Live" badge + "View Live Dashboard" button
+    dashboardSummary: "Filters · Cross-filtering · 6 charts · Median price or sales volume",
     screenshot: "", // fill in to show a screenshot in the modal
     tool: "", // optional extra tag
     problem: "Sale-price results across Nashville (January 2013 to October 2016) were hard for non-technical users to explore, and it was unclear how much the findings change depending on which records are included.",
