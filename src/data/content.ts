@@ -172,26 +172,58 @@ export const skills: { group: string; items: string[] }[] = [
 ];
 
 export const credentials: {
+  provider: string;
   title: string;
-  org: string;
   detail: string;
-  status?: string;
+  duration?: string;
   issued?: string;
-  chips?: string[];
+  tools?: string[];
+  components?: { title: string; duration: string; detail: string }[];
   credentialUrl?: string;
 }[] = [
-  { title: "Data Analysis Program", org: "Instant", detail: "About 150 hours covering Python, SQL, Excel, Power BI, and Tableau" },
   {
-    title: "Professional Data Analysis Track",
-    org: "DEPI",
-    detail: "An initiative of Egypt's Ministry of Communications and Information Technology. Advanced training covering Advanced SQL, Advanced Power BI, and Advanced Python.",
+    provider: "Instant",
+    title: "Data Analysis Program",
+    duration: "150 Hours",
+    detail:
+      "An intensive 150-hour training program covering Python, web scraping, SQL, Excel, Power BI, and Tableau, with a focus on developing practical data analysis skills.",
+    tools: ["Python", "Web Scraping", "SQL", "Excel", "Power BI", "Tableau"],
   },
   {
+    provider: "Digital Egypt Pioneers Initiative (DEPI)",
+    title: "Professional Data Analysis Track",
+    duration: "250+ Hours",
+    detail:
+      "An extensive data analysis training program combining in-depth technical study with professional communication, soft skills, and prompt engineering.",
+    components: [
+      {
+        title: "Advanced Technical Training",
+        duration: "200+ Hours",
+        detail:
+          "In-depth study of Python, SQL, Tableau, and Power BI, covering advanced topics across all four tools.",
+      },
+      {
+        title: "Soft Skills",
+        duration: "18 Hours",
+        detail: "Professional soft skills development.",
+      },
+      {
+        title: "Track-Specific English",
+        duration: "18 Hours",
+        detail: "English language training tailored to the data analysis track.",
+      },
+      {
+        title: "Prompt Engineering",
+        duration: "18 Hours",
+        detail: "Training in prompt engineering.",
+      },
+    ],
+  },
+  {
+    provider: "IBM SkillsBuild",
     title: "IBM Data Fundamentals",
-    org: "IBM SkillsBuild",
     detail: "Covers data analytics concepts, the data analysis process, cleaning and refining data, and visualizing data with IBM Watson Studio.",
     issued: "Issued August 2026",
-    chips: ["Data Analysis", "Data Cleaning", "Data Visualization", "Data Science Methodology", "Databases", "Watson Studio"],
     credentialUrl: "", // paste the Verify link from the IBM badge page here
   },
 ];

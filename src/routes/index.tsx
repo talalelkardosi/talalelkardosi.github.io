@@ -5,6 +5,7 @@ import { Toaster, toast } from "sonner";
 import {
   Sparkles, LineChart, Database, LayoutDashboard, FileText, ArrowUpRight, Copy,
   Mail, Phone, MessageCircle, Linkedin, Briefcase, GraduationCap, Award,
+  BookOpen, Clock3, Code2, Languages, MessagesSquare,
 } from "lucide-react";
 import {
   profile, about, services, projects, githubProfile, skills, credentials, contacts, email,
@@ -272,44 +273,97 @@ function Skills() {
 }
 
 function Credentials() {
+  const credentialIcons = [BookOpen, GraduationCap, Award];
+  const componentIcons = [Code2, MessagesSquare, Languages, Sparkles];
+
   return (
     <section id="credentials" className={`${container} scroll-mt-24 py-24`}>
       <SectionHeading eyebrow="Learning" title="Training & Credentials" />
-      <ol className="relative ml-3 border-l border-gold/40">
+      <div className="space-y-5">
         {credentials.map((c, i) => {
-          const Icon = i === credentials.length - 1 ? GraduationCap : Award;
+          const Icon = credentialIcons[i] ?? Award;
           return (
-            <Reveal key={c.title} delay={i * 0.08} className="relative mb-10 pl-10 last:mb-0">
-              <li className="list-none">
-                <span className="absolute -left-[17px] top-0 flex h-8 w-8 items-center justify-center rounded-full border border-gold bg-background">
-                  <Icon className="h-4 w-4 text-gold" strokeWidth={1.5} aria-hidden />
-                </span>
-                <div className="flex flex-wrap items-center gap-3">
-                  <h3 className="text-xl font-semibold">{c.title}</h3>
-                  {c.status && <span className="rounded-full border border-gold/50 px-2.5 py-0.5 text-xs text-gold-bright">{c.status}</span>}
+            <Reveal key={c.title} delay={i * 0.08}>
+              <article className="glow-hover min-w-0 rounded-2xl border border-border bg-panel p-6 sm:p-8">
+                <div className="flex min-w-0 flex-col gap-5 sm:flex-row sm:items-start sm:justify-between">
+                  <div className="flex min-w-0 items-start gap-4">
+                    <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-gold/40 bg-gold/5">
+                      <Icon className="h-5 w-5 text-gold-bright" strokeWidth={1.5} aria-hidden />
+                    </span>
+                    <div className="min-w-0">
+                      <p className="break-words text-sm font-medium tracking-wide text-gold-bright">
+                        {c.provider}
+                      </p>
+                      <h3 className="mt-1 break-words text-xl font-semibold text-foreground sm:text-2xl">
+                        {c.title}
+                      </h3>
+                    </div>
+                  </div>
+                  {c.duration && (
+                    <span className="inline-flex w-fit shrink-0 items-center gap-2 rounded-full border border-gold/50 bg-gold/10 px-3.5 py-2 text-sm font-semibold text-gold-bright">
+                      <Clock3 className="h-4 w-4" aria-hidden />
+                      {c.duration}
+                    </span>
+                  )}
                 </div>
-                <p className="mt-1 text-gold">{c.org}</p>
-                <p className="mt-2 text-muted-foreground">{c.detail}</p>
-                {c.issued && <p className="mt-2 text-sm text-muted-foreground">{c.issued}</p>}
-                {c.chips && (
-                  <ul className="mt-3 flex flex-wrap gap-2" aria-label="Topics covered">
-                    {c.chips.map((chip) => (
-                      <li key={chip} className="rounded-full border border-gold/30 px-2.5 py-1 text-xs text-gold-bright">
-                        {chip}
-                      </li>
-                    ))}
+
+                <p className="mt-5 max-w-3xl leading-relaxed text-foreground/75">
+                  {c.detail}
+                </p>
+
+                {c.tools && (
+                  <div className="mt-5">
+                    <h4 className="text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground">
+                      Tools
+                    </h4>
+                    <p className="mt-2 break-words text-sm leading-relaxed text-foreground/80">
+                      {c.tools.join(" · ")}
+                    </p>
+                  </div>
+                )}
+
+                {c.components && (
+                  <ul className="mt-6 grid min-w-0 gap-3 sm:grid-cols-2">
+                    {c.components.map((component, componentIndex) => {
+                      const ComponentIcon = componentIcons[componentIndex] ?? BookOpen;
+                      return (
+                        <li
+                          key={component.title}
+                          className="min-w-0 rounded-xl border border-border bg-background/50 p-4 sm:p-5"
+                        >
+                          <div className="flex min-w-0 flex-col items-start gap-2 sm:flex-row sm:justify-between sm:gap-3">
+                            <div className="flex min-w-0 items-start gap-2.5">
+                              <ComponentIcon className="mt-0.5 h-4 w-4 shrink-0 text-gold" aria-hidden />
+                              <h4 className="break-words font-semibold text-foreground">
+                                {component.title}
+                              </h4>
+                            </div>
+                            <span className="shrink-0 rounded-full border border-gold/40 px-2.5 py-1 text-xs font-medium text-gold-bright">
+                              {component.duration}
+                            </span>
+                          </div>
+                          <p className="mt-3 pl-[26px] text-sm leading-relaxed text-foreground/70">
+                            {component.detail}
+                          </p>
+                        </li>
+                      );
+                    })}
                   </ul>
                 )}
+
+                {c.issued && (
+                  <p className="mt-5 text-sm text-muted-foreground">{c.issued}</p>
+                )}
                 {c.credentialUrl && (
-                  <a href={c.credentialUrl} target="_blank" rel="noopener noreferrer" className="mt-3 inline-flex items-center gap-1 rounded-md border border-gold/50 px-2.5 py-1 text-xs font-medium text-gold-bright transition-colors hover:bg-gold/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold">
+                  <a href={c.credentialUrl} target="_blank" rel="noopener noreferrer" className="mt-4 inline-flex items-center gap-1 rounded-md border border-gold/50 px-3 py-1.5 text-sm font-medium text-gold-bright transition-colors hover:bg-gold/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold">
                     Verify Credential ↗
                   </a>
                 )}
-              </li>
+              </article>
             </Reveal>
           );
         })}
-      </ol>
+      </div>
     </section>
   );
 }
