@@ -3,12 +3,13 @@ import { useEffect, useRef, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { Toaster, toast } from "sonner";
 import {
-  Sparkles, LineChart, Database, LayoutDashboard, FileText, ArrowUpRight, Copy,
+  Sparkles, LineChart, Database, LayoutDashboard, FileText, Copy,
   Mail, Phone, MessageCircle, Linkedin, Briefcase, GraduationCap, Award,
-  BookOpen, Clock3, Code2, Languages, MessagesSquare,
+  BookOpen, Clock3, Code2, Languages, MessagesSquare, ShieldCheck, GitBranch,
 } from "lucide-react";
 import {
-  profile, about, services, projects, githubProfile, skills, credentials, contacts, email,
+  profile, about, services, projects, githubProfile, skills, workflowSkills,
+  credentials, contacts, email,
   type Project, type ServiceIcon, type ContactKind,
 } from "@/data/content";
 import { Navbar } from "@/components/portfolio/Navbar";
@@ -174,23 +175,7 @@ function Projects({ onOpen }: { onOpen: (p: Project, trigger: HTMLButtonElement)
         {projects.map((p, i) => (
           <Reveal key={p.title} delay={i * 0.08} className="min-w-0">
             <article className="glow-hover relative flex h-full min-w-0 flex-col rounded-2xl border border-border bg-panel p-7">
-              {(p.githubUrl || p.dashboardUrl) && (
-                <span className="absolute right-5 top-5 flex items-center gap-2">
-                  {p.dashboardUrl && (
-                    <span className="inline-flex items-center gap-1.5 rounded-full border border-gold/40 px-2.5 py-1 text-xs text-gold-bright">
-                      <span className="h-1.5 w-1.5 rounded-full bg-gold-bright" aria-hidden /> Live
-                    </span>
-                  )}
-                  {p.githubUrl && (
-                    <span className="inline-flex items-center gap-1.5 rounded-full border border-gold/40 px-2.5 py-1 text-xs text-gold-bright">
-                      <GithubIcon className="h-3.5 w-3.5" /> GitHub
-                    </span>
-                  )}
-                </span>
-              )}
-              <h3
-                className={`${p.dashboardUrl && p.githubUrl ? "pt-10 pr-0 sm:pt-0 sm:pr-40" : p.githubUrl ? "pr-24" : ""} break-words text-xl font-semibold md:text-2xl`}
-              >
+              <h3 className="break-words text-xl font-semibold md:text-2xl">
                 {p.title}
               </h3>
               <p className="mt-3 line-clamp-3 text-muted-foreground">
@@ -206,36 +191,37 @@ function Projects({ onOpen }: { onOpen: (p: Project, trigger: HTMLButtonElement)
                   <span key={t} className="rounded-full border border-border px-3 py-1 text-xs text-muted-foreground">{t}</span>
                 ))}
               </div>
-              <div className="mt-auto flex flex-col gap-3 pt-6">
+              <div className="mt-auto flex flex-wrap items-center gap-x-4 gap-y-2 pt-5">
                 {p.dashboardUrl && (
                   <a
                     href={p.dashboardUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="btn-gold w-full"
+                    className="inline-flex min-h-11 items-center gap-2.5 rounded-lg px-1.5 py-0.5 text-sm font-medium text-foreground/85 transition-colors hover:text-gold-bright focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-bright focus-visible:ring-offset-2 focus-visible:ring-offset-panel"
                   >
-                    Explore Dashboard <ArrowUpRight className="h-4 w-4" aria-hidden />
+                    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-gold text-background transition-transform group-hover:scale-105">
+                      <LayoutDashboard className="h-5 w-5" aria-hidden />
+                    </span>
+                    <span>Live Dashboard</span>
                   </a>
                 )}
-                <div className="flex flex-col gap-3 sm:flex-row">
-                  <button
-                    type="button"
-                    onClick={(event) => onOpen(p, event.currentTarget)}
-                    className="btn-outline-gold min-w-0 flex-1"
+                <button
+                  type="button"
+                  onClick={(event) => onOpen(p, event.currentTarget)}
+                  className="inline-flex min-h-11 items-center rounded-md px-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-gold/5 hover:text-gold-bright focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-bright focus-visible:ring-offset-2 focus-visible:ring-offset-panel"
+                >
+                  Case Study
+                </button>
+                {p.githubUrl && (
+                  <a
+                    href={p.githubUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex min-h-11 items-center gap-2 rounded-md px-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-gold/5 hover:text-gold-bright focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-bright focus-visible:ring-offset-2 focus-visible:ring-offset-panel"
                   >
-                    Read Case Study
-                  </button>
-                  {p.githubUrl && (
-                    <a
-                      href={p.githubUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="btn-outline-gold min-w-0 flex-1"
-                    >
-                      <GithubIcon className="h-4 w-4" /> GitHub
-                    </a>
-                  )}
-                </div>
+                    <GithubIcon className="h-4 w-4" /> GitHub
+                  </a>
+                )}
               </div>
             </article>
           </Reveal>
@@ -251,22 +237,92 @@ function Projects({ onOpen }: { onOpen: (p: Project, trigger: HTMLButtonElement)
 }
 
 function Skills() {
+  const skillIcons = {
+    code: Code2,
+    database: Database,
+    chart: LineChart,
+    validation: ShieldCheck,
+  };
+
   return (
     <section id="skills" className="scroll-mt-24 bg-charcoal py-24">
       <div className={container}>
-        <SectionHeading eyebrow="Toolkit" title="Skills" />
-        <div className="space-y-10">
-          {skills.map((g) => (
-            <Reveal key={g.group}>
-              <h3 className="mb-4 text-sm font-semibold uppercase tracking-widest text-gold">{g.group}</h3>
-              <ul className="flex flex-wrap gap-2.5">
-                {g.items.map((s) => (
-                  <li key={s} className="glow-hover cursor-default rounded-full border border-border bg-panel px-4 py-2 text-sm">{s}</li>
-                ))}
-              </ul>
-            </Reveal>
-          ))}
+        <SectionHeading
+          eyebrow="MY TOOLKIT"
+          title="Tools & Analytical Skills"
+          sub="The tools and methods I use to clean data, explore patterns, and communicate findings."
+        />
+        <div className="grid gap-5 md:grid-cols-2">
+          {skills.map((category, i) => {
+            const Icon = skillIcons[category.icon];
+            return (
+              <Reveal key={category.title} delay={i * 0.06}>
+                <article className="min-w-0 rounded-2xl border border-border bg-panel p-6 transition-[transform,border-color] duration-200 hover:-translate-y-0.5 hover:border-gold/45 motion-reduce:transition-none motion-reduce:hover:transform-none md:p-7">
+                  <div className="flex items-start gap-4">
+                    <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-gold/35 bg-gold/5 text-gold-bright">
+                      <Icon className="h-5 w-5" strokeWidth={1.7} aria-hidden />
+                    </span>
+                    <div className="min-w-0">
+                      <h3 className="break-words text-xl font-semibold text-foreground md:text-2xl">
+                        {category.title}
+                      </h3>
+                      <p className="mt-2 leading-relaxed text-foreground/70">
+                        {category.description}
+                      </p>
+                    </div>
+                  </div>
+                  {category.primaryTools && (
+                    <ul className="mt-5 flex flex-wrap gap-2" aria-label="Primary tools">
+                      {category.primaryTools.map((tool) => (
+                        <li
+                          key={tool}
+                          className="rounded-md border border-gold/40 bg-gold/10 px-3 py-1.5 text-sm font-medium text-gold-bright"
+                        >
+                          {tool}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                  <ul className="mt-5 flex flex-wrap gap-x-4 gap-y-2.5">
+                    {category.supportingSkills.map((skill) => (
+                      <li
+                        key={skill}
+                        className="relative min-w-0 break-words pl-3 text-sm leading-relaxed text-muted-foreground before:absolute before:left-0 before:top-[0.7em] before:h-1 before:w-1 before:rounded-full before:bg-gold/70"
+                      >
+                        {skill}
+                      </li>
+                    ))}
+                  </ul>
+                </article>
+              </Reveal>
+            );
+          })}
         </div>
+        <Reveal className="mt-5">
+          <article className="flex min-w-0 flex-col gap-5 rounded-2xl border border-border bg-panel p-6 transition-[transform,border-color] duration-200 hover:-translate-y-0.5 hover:border-gold/45 motion-reduce:transition-none motion-reduce:hover:transform-none md:flex-row md:items-center md:justify-between md:p-7">
+            <div className="flex min-w-0 items-start gap-4 md:max-w-sm">
+              <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-gold/35 bg-gold/5 text-gold-bright">
+                <GitBranch className="h-5 w-5" strokeWidth={1.7} aria-hidden />
+              </span>
+              <div className="min-w-0">
+                <h3 className="text-lg font-semibold text-foreground">Tools & Workflow</h3>
+                <p className="mt-1 leading-relaxed text-foreground/70">
+                  {workflowSkills.description}
+                </p>
+              </div>
+            </div>
+            <ul className="flex min-w-0 flex-wrap gap-x-4 gap-y-2.5 md:justify-end">
+              {workflowSkills.items.map((item) => (
+                <li
+                  key={item}
+                  className="relative min-w-0 break-words pl-3 text-sm leading-relaxed text-muted-foreground before:absolute before:left-0 before:top-[0.7em] before:h-1 before:w-1 before:rounded-full before:bg-gold/70"
+                >
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </article>
+        </Reveal>
       </div>
     </section>
   );

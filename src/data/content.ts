@@ -125,6 +125,14 @@ export const projects: Project[] = [
       "Delivered an interactive dashboard that brings revenue, markets, products, customer segments, retention, cancellations, and methodology into one explorable interface.",
   },
   {
+    title: "Covid-19 Data Exploration with SQL",
+    tags: ["SQL Server", "Window Functions", "CTEs"],
+    githubUrl: "https://github.com/talalelkardosi/SQL-Project",
+    problem: "A real-world Covid-19 dataset (cases, deaths, vaccinations) needed structured analysis across countries and continents.",
+    approach: "Calculated infection and death rates relative to population, compared countries and continents, joined the deaths and vaccinations tables, and used window functions for a rolling count of vaccinated people over time. Organized the logic with CTEs, temp tables, and views to keep it clean and reusable.",
+    result: "Reusable analytical SQL that goes beyond basic SELECT statements: joins, aggregations, window functions, and structured query design.",
+  },
+  {
     title: "Nashville Housing: Data Cleaning",
     tags: ["Python", "pandas", "NumPy"],
     githubUrl: "https://github.com/talalelkardosi/Nashville-Housing-Data-Cleaning",
@@ -153,23 +161,88 @@ export const projects: Project[] = [
     approach: "Built an interactive dashboard on the cleaned Nashville Housing dataset. Prices use medians everywhere, with no outlier deletion and no filling of missing values, and any group with fewer than 30 records is hidden. Year-over-year comparisons always use the same January to October window. Possible multi-parcel sales are excluded by default, with a toggle to bring them back. Features: filters for year, land use, city, and multi-parcel inclusion plus a reset; cross-filtering by clicking any bar or heatmap cell; a switch between median price and sales volume; 4 animated KPI cards; and an insight sentence that updates with every filter. Six charts: monthly trend with a Q1-Q3 band, January-October median per year, a city x year heatmap, and medians by land use, by city, and by number of bedrooms.",
     result: "A fast, explorable view where users compare segments and spot patterns in seconds. Prices are nominal transaction medians (descriptive only, not inflation-adjusted, no causal or investment claims).",
   },
+];
+
+export const skills: {
+  title: string;
+  description: string;
+  icon: "code" | "database" | "chart" | "validation";
+  primaryTools?: string[];
+  supportingSkills: string[];
+}[] = [
   {
-    title: "Covid-19 Data Exploration with SQL",
-    tags: ["SQL Server", "Window Functions", "CTEs"],
-    githubUrl: "https://github.com/talalelkardosi/SQL-Project",
-    problem: "A real-world Covid-19 dataset (cases, deaths, vaccinations) needed structured analysis across countries and continents.",
-    approach: "Calculated infection and death rates relative to population, compared countries and continents, joined the deaths and vaccinations tables, and used window functions for a rolling count of vaccinated people over time. Organized the logic with CTEs, temp tables, and views to keep it clean and reusable.",
-    result: "Reusable analytical SQL that goes beyond basic SELECT statements: joins, aggregations, window functions, and structured query design.",
+    title: "Python & Data Preparation",
+    description: "Prepare, transform, and explore datasets with Python.",
+    icon: "code",
+    primaryTools: ["Python", "Pandas", "NumPy"],
+    supportingSkills: [
+      "Matplotlib",
+      "Seaborn",
+      "Plotly",
+      "Jupyter Notebook",
+      "Web Scraping",
+      "Data Cleaning Scripts",
+    ],
+  },
+  {
+    title: "SQL & Databases",
+    description: "Query, combine, and summarize data to answer analytical questions.",
+    icon: "database",
+    primaryTools: ["SQL Server"],
+    supportingSkills: [
+      "Joins",
+      "Aggregations",
+      "Subqueries",
+      "CTEs",
+      "Window Functions",
+      "Views",
+      "Temp Tables",
+      "Query Optimization Basics",
+    ],
+  },
+  {
+    title: "BI & Visualization",
+    description: "Turn analysis into interactive dashboards and clear visual stories.",
+    icon: "chart",
+    primaryTools: ["Power BI", "Tableau", "Excel"],
+    supportingSkills: [
+      "DAX Basics",
+      "Power Query",
+      "Pivot Tables",
+      "KPI Analysis",
+      "Dashboard Design",
+      "Data Storytelling",
+    ],
+  },
+  {
+    title: "Data Quality & Analysis",
+    description: "Assess data quality, investigate patterns, and document analytical limitations.",
+    icon: "validation",
+    supportingSkills: [
+      "Exploratory Data Analysis (EDA)",
+      "Data Cleaning",
+      "Data Validation",
+      "Missing Data Handling",
+      "Outlier Detection",
+      "Duplicate Handling",
+      "Correlation Analysis",
+      "Statistical Analysis",
+      "Data Profiling",
+    ],
   },
 ];
 
-export const skills: { group: string; items: string[] }[] = [
-  { group: "Python", items: ["Pandas", "NumPy", "Matplotlib", "Seaborn", "Plotly", "Jupyter Notebook", "Data Cleaning Scripts", "Exploratory Analysis"] },
-  { group: "SQL", items: ["SQL Server", "Joins", "Aggregations", "Subqueries", "CTEs", "Window Functions", "Views", "Temp Tables", "Query Optimization Basics"] },
-  { group: "BI & Visualization", items: ["Power BI", "Tableau", "Excel", "DAX Basics", "Power Query", "Pivot Tables", "KPI Analysis", "Dashboard Design", "Data Storytelling"] },
-  { group: "Data Quality & Analysis", items: ["EDA", "Data Cleaning", "Data Validation", "Missing Data Handling", "Outlier Detection", "Duplicate Handling", "Correlation Analysis", "Statistical Analysis", "Data Profiling"] },
-  { group: "Tools & Workflow", items: ["Git", "GitHub", "VS Code", "Web Scraping", "Data Warehousing", "Documentation", "Reproducible Analysis"] },
-];
+export const workflowSkills = {
+  description: "Organize code, document decisions, and keep analysis reproducible.",
+  items: [
+    "Git",
+    "GitHub",
+    "VS Code",
+    "Data Warehousing",
+    "Documentation",
+    "Reproducible Analysis",
+  ],
+};
 
 export const credentials: {
   provider: string;
